@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.text.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
+import java.util.Random;
 
 /**
  * A class that represents a picture.  This class inherits from 
@@ -296,14 +297,54 @@ public class Picture extends SimplePicture
   }
   
   
+  public void glitch()
+  {
+	  Pixel leftPixel = null;
+	  Pixel rightPixel = null;
+	  int count = 0;
+	  Pixel[][] pixels = this.getPixels2D();
+	//  Random rand = new Random();
+	  
+	  int imageHeight = pixels.length;
+	  int imageWidth = pixels[0].length;
+	  
+	  int mirrorPointH = 0;
+	  int mirrorPointW = 0;
+	  int mirrorPlaceH = 0;
+	  int mirrorPlaceW = 0;
+	  
+	  for (int x = 0; x < 5; x++)
+	  {
+	   double rand = Math.random();
+	  
+	  mirrorPointH = (int) (imageHeight * rand);
+	  mirrorPointW = (int) (imageWidth * rand);
+	  mirrorPlaceH = (int) (imageHeight * rand);
+	  mirrorPlaceW = (int) (imageWidth * rand);
+	  
+	  
+	  for (int row = mirrorPlaceH; row < mirrorPointH; row++)
+	  {
+		  for (int col = mirrorPlaceW; col < mirrorPointW; col++)
+		  {
+			  leftPixel = pixels[row][col];
+			  rightPixel = pixels[row]
+					  			[mirrorPointW - col + mirrorPointW];
+			  rightPixel.setColor(leftPixel.getColor());
+		  }
+	  }
+	  }
+  }
+  
+  
   /* Main method for testing - each class in Java can have a main 
    * method 
    */
   public static void main(String[] args) 
   {
-    Picture seagull = new Picture("caterpillar.jpg");
+    Picture seagull = new Picture("barbaraS.jpg");
     seagull.explore();
-    seagull.edgeDetection(10);
+    seagull.glitch();
     seagull.explore();
   }
   
